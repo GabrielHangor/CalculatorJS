@@ -64,6 +64,7 @@ body {
 }
 
 button {
+  user-select: none;
   font-family: "Oswald", sans-serif;
   cursor: pointer;
   min-height: 50px;
