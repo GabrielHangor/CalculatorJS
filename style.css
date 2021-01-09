@@ -86,9 +86,11 @@ button:active {
   transform: scale(0.98);
 }
 
-.equal-sign {
+#equal-sign {
   grid-column: 4;
   grid-row: 6/2;
+  background-color: rgb(182, 255, 182);
+  font-size: 2rem;
 }
 
 .operator {
@@ -97,9 +99,4 @@ button:active {
 
 .clear {
   background-color: rgb(255, 211, 211);
-}
-
-.equal-sign {
-  background-color: rgb(182, 255, 182);
-  font-size: 2rem;
 }
