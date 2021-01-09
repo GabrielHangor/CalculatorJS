@@ -17,23 +17,27 @@ const calculate = {
 
 function operate () {
   secondValue = Number(currentInput.textContent);
-  currentInput.textContent = calculate[operator](firstValue, secondValue);
+  currentInput.textContent = Math.round(calculate[operator](firstValue, secondValue) * 10) / 10;
   firstValue = Number(currentInput.textContent)
   secondValue = 0;
   operator = '';
+  awaitNextValue = false
 }
 
-function storeValues (e) {
+function storeAndDisplayValues (e) {
   if (e.target.classList.contains('operator') && !operator) {
     operator = e.target.value;
     firstValue = Number(currentInput.textContent);
     currentInput.textContent = '';
   } else if (e.target.classList.contains('operator') && operator) {
     secondValue = Number(currentInput.textContent);
-    currentInput.textContent = calculate[operator](firstValue, secondValue);
+    currentInput.textContent = Math.round(calculate[operator](firstValue, secondValue) * 10) / 10;
     firstValue = Number(currentInput.textContent)
     secondValue = 0;  
-
+    awaitNextValue = true;
+    operator = e.target.value;
+  } else if (!e.target.className && awaitNextValue && currentInput.textContent && e.target.value !== '.') {
+    currentInput.textContent = e.target.value; 
   }
 
   console.log(firstValue, secondValue, operator);
@@ -52,5 +56,5 @@ function displayInput(e) {
 }
 
 inputContainer.addEventListener("click", (e) => displayInput(e));
-inputContainer.addEventListener('click', (e) => storeValues(e));
+inputContainer.addEventListener('click', (e) => storeAndDisplayValues(e));
 equalSign.addEventListener('click', operate);
