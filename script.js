@@ -2,28 +2,53 @@ const resultsDisplay = document.querySelector(".result");
 const inputBtns = document.querySelectorAll("button");
 const clearBtn = document.querySelector(".clear");
 
-let firstValue = 0;
-let secondValue = 0;
+let firstNumber = 0;
 let operatorValue = "";
 let awaitingNextValue = false;
 
-function add(firstValue, secondValue) {
-  return firstValue + secondValue;
+const calculate = {
+  "+": (firstNumber, secondNumber) => add(firstNumber, secondNumber),
+  "-": (firstNumber, secondNumber) => subtract(firstNumber, secondNumber),
+  "*": (firstNumber, secondNumber) => multiply(firstNumber, secondNumber),
+  "/": (firstNumber, secondNumber) => divide(firstNumber, secondNumber),
+  "=": (firstNumber, secondNumber) => secondNumber,
+};
+
+function add(firstNumber, secondNumber) {
+  return firstNumber + secondNumber;
 }
 
-function subtract(firstValue, secondValue) {
-  return firstValue - secondValue;
+function subtract(firstNumber, secondNumber) {
+  return firstNumber - secondNumber;
 }
 
-function multiply(firstValue, secondValue) {
-  return firstValue * secondValue;
+function multiply(firstNumber, secondNumber) {
+  return firstNumber * secondNumber;
 }
 
-function divide(firstValue, secondValue) {
-  return firstValue / secondValue;
+function divide(firstNumber, secondNumber) {
+  return firstNumber / secondNumber;
 }
 
-function operate(operator, firstValue, secondValue) {}
+function operate(operator) {
+  const secondNumber = Number(resultsDisplay.textContent);
+
+  if (operatorValue && awaitingNextValue) {
+    operatorValue = operator;
+    return;
+  }
+
+  if (!firstNumber) {
+    firstNumber = secondNumber;
+  } else {
+    const result = calculate[operatorValue](firstNumber, secondNumber);
+    resultsDisplay.textContent = result;
+    firstNumber = result;
+  }
+
+  awaitingNextValue = true;
+  operatorValue = operator;
+}
 
 function inputNumberValue(value) {
   if (awaitingNextValue) {
@@ -48,9 +73,7 @@ inputBtns.forEach((button) => {
   if (button.classList.length === 0) {
     button.addEventListener("click", () => inputNumberValue(button.value));
   } else if (button.classList.contains("operator")) {
-    button.addEventListener("click", () =>
-      operate(button.value, firstValue, secondValue)
-    );
+    button.addEventListener("click", () => operate(button.value));
   } else if (button.classList.contains("decimal")) {
     button.addEventListener("click", inputDecimal);
   }
