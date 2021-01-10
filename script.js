@@ -30,6 +30,8 @@ function divide(firstNumber, secondNumber) {
   return firstNumber / secondNumber;
 }
 
+
+// Display the results, update the stored values.
 function operate(operator) {
   const secondNumber = Number(resultsDisplay.textContent);
 
@@ -52,6 +54,7 @@ function operate(operator) {
   operatorValue = operator;
 }
 
+// Format number input
 function inputNumberValue(value) {
   if (awaitingNextValue) {
     resultsDisplay.textContent = value;
