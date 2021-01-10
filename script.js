@@ -40,9 +40,11 @@ function operate(operator) {
 
   if (!firstNumber) {
     firstNumber = secondNumber;
+  } else if (secondNumber === 0 && operatorValue === "/") {
+    resultsDisplay.textContent = "ERROR";
   } else {
     const result = calculate[operatorValue](firstNumber, secondNumber);
-    resultsDisplay.textContent = result;
+    resultsDisplay.textContent = Math.round(result * 10) / 10;
     firstNumber = result;
   }
 
@@ -62,10 +64,18 @@ function inputNumberValue(value) {
   }
 }
 
+// Format decimal input
 function inputDecimal() {
   if (!resultsDisplay.textContent.includes(".") && !awaitingNextValue) {
     resultsDisplay.textContent = `${resultsDisplay.textContent}.`;
   }
+}
+
+function reset() {
+  resultsDisplay.textContent = "0";
+  firstNumber = 0;
+  operatorValue = "";
+  awaitingNextValue = false;
 }
 
 // Add event listeners on each button separately based on condition
@@ -78,3 +88,5 @@ inputBtns.forEach((button) => {
     button.addEventListener("click", inputDecimal);
   }
 });
+
+clearBtn.addEventListener("click", reset);

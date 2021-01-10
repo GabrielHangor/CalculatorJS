@@ -86,6 +86,7 @@ button:active {
 
 .operator {
   font-size: 2rem;
+  background-color: rgb(255, 226, 188);
 }
 
 .clear {
