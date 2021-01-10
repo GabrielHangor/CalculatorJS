@@ -1,60 +1,57 @@
-const currentInput = document.querySelector(".result");
-const inputContainer = document.querySelector(".input-container");
-const equalSign = document.querySelector('#equal-sign');
+const resultsDisplay = document.querySelector(".result");
+const inputBtns = document.querySelectorAll("button");
+const clearBtn = document.querySelector(".clear");
 
 let firstValue = 0;
 let secondValue = 0;
-let operator;
-let awaitNextValue = false;
+let operatorValue = "";
+let awaitingNextValue = false;
 
-const calculate = {
-  "/": (firstValue, secondValue) => firstValue / secondValue,
-  "*": (firstValue, secondValue) => firstValue * secondValue,
-  "+": (firstValue, secondValue) => firstValue + secondValue,
-  "-": (firstValue, secondValue) => firstValue - secondValue,
+function add(firstValue, secondValue) {
+  return firstValue + secondValue;
 }
 
-
-function operate () {
-  secondValue = Number(currentInput.textContent);
-  currentInput.textContent = Math.round(calculate[operator](firstValue, secondValue) * 10) / 10;
-  firstValue = Number(currentInput.textContent)
-  secondValue = 0;
-  operator = '';
-  awaitNextValue = false
+function subtract(firstValue, secondValue) {
+  return firstValue - secondValue;
 }
 
-function storeAndDisplayValues (e) {
-  if (e.target.classList.contains('operator') && !operator) {
-    operator = e.target.value;
-    firstValue = Number(currentInput.textContent);
-    currentInput.textContent = '';
-  } else if (e.target.classList.contains('operator') && operator) {
-    secondValue = Number(currentInput.textContent);
-    currentInput.textContent = Math.round(calculate[operator](firstValue, secondValue) * 10) / 10;
-    firstValue = Number(currentInput.textContent)
-    secondValue = 0;  
-    awaitNextValue = true;
-    operator = e.target.value;
-  } else if (!e.target.className && awaitNextValue && currentInput.textContent && e.target.value !== '.') {
-    currentInput.textContent = e.target.value; 
-  }
-
-  console.log(firstValue, secondValue, operator);
+function multiply(firstValue, secondValue) {
+  return firstValue * secondValue;
 }
 
+function divide(firstValue, secondValue) {
+  return firstValue / secondValue;
+}
 
+function operate(operator, firstValue, secondValue) {}
 
-function displayInput(e) {
-  if (!e.target.className && e.target.value === '.' && currentInput.textContent.includes(".")) {
-    currentInput.textContent.replace(',', '');
-  } else if (!e.target.className && currentInput.textContent === '0' && e.target.value !== '.') {
-    currentInput.textContent = e.target.value; 
-  } else if (!e.target.className) {
-    currentInput.textContent += e.target.value;
+function inputNumberValue(value) {
+  if (awaitingNextValue) {
+    resultsDisplay.textContent = value;
+    awaitingNextValue = false;
+  } else {
+    resultsDisplay.textContent =
+      resultsDisplay.textContent === "0"
+        ? value
+        : resultsDisplay.textContent + value;
   }
 }
 
-inputContainer.addEventListener("click", (e) => displayInput(e));
-inputContainer.addEventListener('click', (e) => storeAndDisplayValues(e));
-equalSign.addEventListener('click', operate);
+function inputDecimal() {
+  if (!resultsDisplay.textContent.includes(".") && !awaitingNextValue) {
+    resultsDisplay.textContent = `${resultsDisplay.textContent}.`;
+  }
+}
+
+// Add event listeners on each button separately based on condition
+inputBtns.forEach((button) => {
+  if (button.classList.length === 0) {
+    button.addEventListener("click", () => inputNumberValue(button.value));
+  } else if (button.classList.contains("operator")) {
+    button.addEventListener("click", () =>
+      operate(button.value, firstValue, secondValue)
+    );
+  } else if (button.classList.contains("decimal")) {
+    button.addEventListener("click", inputDecimal);
+  }
+});
