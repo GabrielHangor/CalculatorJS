@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
 body {
   box-sizing: border-box;
@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -37,14 +37,30 @@ body {
   border-top-right-radius: 10px;
 }
 
-
 .result {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-end;
   font-size: 3rem;
   width: 90%;
+  overflow-x: auto;
 }
+
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background: whitesmoke;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(0, 93, 155);
+}
+
+
 
 /* Input container */
 .input-container {
